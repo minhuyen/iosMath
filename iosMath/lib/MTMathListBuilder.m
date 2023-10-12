@@ -45,6 +45,7 @@ NSString *const MTParseError = @"ParseError";
     MTEnvProperties* _currentEnv;
     MTFontStyle _currentFontStyle;
     BOOL _spacesAllowed;
+    int _numberOfArrayBraces;
 }
 
 - (instancetype)initWithString:(NSString *)str
@@ -57,6 +58,7 @@ NSString *const MTParseError = @"ParseError";
         [str getCharacters:_chars range:NSMakeRange(0, str.length)];
         _currentChar = 0;
         _currentFontStyle = kMTFontStyleDefault;
+        _numberOfArrayBraces = 0;
     }
     return self;
 }
@@ -157,9 +159,10 @@ NSString *const MTParseError = @"ParseError";
         } else if (ch == '{') {
             // this puts us in a recursive routine, and sets oneCharOnly to false and no stop character
             MTMathList* sublist = [self buildInternal:false stopChar:'}'];
-            if ([_currentEnv.envName isEqual: @"array"]) {
+            if ([_currentEnv.envName isEqual: @"array"] && _numberOfArrayBraces == 0) {
                 prevAtom = [MTMathAtom atomWithType:kMTMathAtomOrdinary value:@""];
-                [sublist removeLastAtom];
+                sublist = [MTMathList mathListWithAtoms:prevAtom, nil];
+                _numberOfArrayBraces++;
             } else {
                 prevAtom = [sublist.atoms lastObject];
             }
