@@ -330,7 +330,7 @@ NSString *const MTSymbolDegree = @"\u00B0"; // \circ
             [table setAlignment:kMTColumnAlignmentLeft forColumn:i];
         }
         return table;
-    } else if ([env isEqualToString:@"eqalign"] || [env isEqualToString:@"split"] || [env isEqualToString:@"aligned"]) {
+    } else if ([env isEqualToString:@"eqalign"] || [env isEqualToString:@"split"] || [env isEqualToString:@"aligned"] || [env isEqualToString:@"align"]) {
         if (table.numColumns != 2) {
             NSString* message = [NSString stringWithFormat:@"%@ environment can only have 2 columns", env];
             if (error != nil) {

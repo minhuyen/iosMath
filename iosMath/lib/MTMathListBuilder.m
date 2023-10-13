@@ -307,8 +307,8 @@ NSString *const MTParseError = @"ParseError";
 {
     while ([self hasCharacters]) {
         unichar ch = [self getNextCharacter];
-        if (ch < 0x21 || ch > 0x7E) {
-            // skip non ascii characters and spaces
+        if (ch < 0x21 || ch > 0x7E || ch == 0x2A) {
+            // skip non ascii characters and spaces and *
             continue;
         } else {
             [self unlookCharacter];
